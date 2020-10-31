@@ -2,7 +2,7 @@ package clases;
 
 public class Productor extends Thread {
 
-    private int ultimoNonce;
+    private long ultimoNonce;
     private final Buffer buffer;
     private final int tamanioRango;
 
@@ -11,12 +11,11 @@ public class Productor extends Thread {
      this.ultimoNonce= 0;
      this.tamanioRango=tamanio;
  }
-     public synchronized void run() {
+     public void run() {
 
-         /*n es menor a cant threads*/
-        while(true){
-        int primerNonce = this.ultimoNonce;
-        for (int i = 0; i < tamanioRango; i++) {
+        while(ultimoNonce<Math.pow(2,32)){
+        long primerNonce = this.ultimoNonce;
+            for (int i = 0; i < tamanioRango; i++) {
             this.ultimoNonce++;
         }
         buffer.addWorkingUnit(primerNonce, ultimoNonce);

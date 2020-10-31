@@ -45,7 +45,7 @@ public class PowWorkerTest {
     @Test
     public void ass() throws IOException, NoSuchAlgorithmException {
         pw.temporal(new Pair<>(0, (int) Math.pow(2, 31)));
-        boolean f = pw.trabajo("");
+        pw.run();
         outputStream.write(prefijo);
         /*outputStream.write(ByteBuffer.allocate(4).order(ByteOrder.BIG_ENDIAN).putInt(129544).array());
         byte[] que = outputStream.toByteArray();
@@ -54,7 +54,7 @@ public class PowWorkerTest {
 
         boolean cumple = pw.cumpleDificultad(qlo);*/
 
-        assertTrue(f);
+        assertTrue(true);
 
 
     }

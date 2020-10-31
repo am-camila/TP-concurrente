@@ -30,7 +30,7 @@ public class Buffer {
         return this.ranges.remove(0);
     }
 
-    synchronized public void addWorkingUnit(int primerNonce, int ultimoNonce){
+    synchronized public void addWorkingUnit(long primerNonce, long ultimoNonce){
         while(this.ranges.size() == capacidad){
             try {
                 wait();

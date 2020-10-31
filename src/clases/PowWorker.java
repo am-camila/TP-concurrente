@@ -15,6 +15,7 @@ public class PowWorker extends Thread{
     private final int dificultad;
     private Buffer buffer;
     private Pair<Integer,Integer> rango; //rango que puede esta entre 0 y 2^32
+    private String prefijo = "";
 
     public PowWorker(Buffer buffer, int dificultad){
         this.buffer=buffer;
@@ -29,19 +30,29 @@ public class PowWorker extends Thread{
         return cumple;
     }
 
-    public synchronized boolean trabajo(String pref) throws IOException, NoSuchAlgorithmException {
+    public void run() {
         Pair<Integer,Integer> rango = buffer.removeWorkingUnit();
 
 
         byte[] nonceValido;
         boolean noHayNonce = true;
-        MessageDigest sha = MessageDigest.getInstance("SHA-256");
+        MessageDigest sha = null;
+        try {
+            sha = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
 
         for (int i = rango.getKey(); i < rango.getValue() && !buffer.getHayNonce(); i++) {
-            outputStream.write(pref.getBytes());
-            outputStream.write(pasarABytes(i));
+            try {
+                outputStream.write(prefijo.getBytes());
+                outputStream.write(pasarABytes(i));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
             byte[] digest = sha.digest(outputStream.toByteArray());
             String result = String.format("%064x", new BigInteger(1, digest));
             if (cumpleDificultad(result)) {
@@ -50,10 +61,7 @@ public class PowWorker extends Thread{
                 System.out.println("nonce " + i +" : " + Arrays.toString(nonceValido) + " cumple");
             }
             outputStream.reset();
-
         }
-
-        return noHayNonce;
     }
 
     private byte[] pasarABytes(Integer i) {
