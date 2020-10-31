@@ -1,14 +1,12 @@
 package clases;
 
 
-import javafx.util.Pair;
-
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class Buffer {
-   List<Pair> ranges = new ArrayList<>();
+   List<Rango> ranges = new ArrayList<>();
     private int capacidad;
     private boolean hayNonce = false;
 
@@ -17,7 +15,7 @@ public class Buffer {
         this.capacidad = capacidad;
     }
 
-    synchronized public Pair removeWorkingUnit(){
+    synchronized public Rango removeWorkingUnit(){
         while(this.ranges.size() == 0){
             try {
                 this.wait();
@@ -38,7 +36,7 @@ public class Buffer {
                 e.printStackTrace();
             }
         }
-        this.ranges.add(new Pair(primerNonce,ultimoNonce));
+        this.ranges.add(new Rango(primerNonce, ultimoNonce));
         System.out.println("Se agrego un rango");
         notifyAll();
     }

@@ -1,7 +1,5 @@
 package clases;
 
-import javafx.util.Pair;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.math.BigInteger;
@@ -14,7 +12,7 @@ import java.util.Arrays;
 public class PowWorker extends Thread{
     private final int dificultad;
     private Buffer buffer;
-    private Pair<Integer,Integer> rango; //rango que puede esta entre 0 y 2^32
+    private Rango rango; //rango que puede esta entre 0 y 2^32
     private String prefijo = "";
 
     public PowWorker(Buffer buffer, int dificultad){
@@ -31,7 +29,7 @@ public class PowWorker extends Thread{
     }
 
     public void run() {
-        Pair<Integer,Integer> rango = buffer.removeWorkingUnit();
+        Rango rango = buffer.removeWorkingUnit();
 
 
         byte[] nonceValido;
@@ -45,10 +43,10 @@ public class PowWorker extends Thread{
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
 
-        for (int i = rango.getKey(); i < rango.getValue() && !buffer.getHayNonce(); i++) {
+        for (long i = rango.getInicio(); i < rango.getFin() && !buffer.getHayNonce(); i++) {
             try {
                 outputStream.write(prefijo.getBytes());
-                outputStream.write(pasarABytes(i));
+                outputStream.write(pasarABytes((int) i));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -57,7 +55,7 @@ public class PowWorker extends Thread{
             String result = String.format("%064x", new BigInteger(1, digest));
             if (cumpleDificultad(result)) {
                 buffer.setHayNonce(true);
-                nonceValido = pasarABytes(i);
+                nonceValido = pasarABytes((int) i);
                 System.out.println("nonce " + i +" : " + Arrays.toString(nonceValido) + " cumple");
             }
             outputStream.reset();
@@ -67,7 +65,7 @@ public class PowWorker extends Thread{
     private byte[] pasarABytes(Integer i) {
        return ByteBuffer.allocate(4).order(ByteOrder.BIG_ENDIAN).putInt(i).array();
     }
-    public void temporal(Pair<Integer,Integer> rango){
+    public void temporal(Rango rango){
         this.rango = rango;
     }
 
