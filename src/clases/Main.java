@@ -1,15 +1,5 @@
 package clases;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.lang.reflect.Array;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -33,10 +23,7 @@ public class Main {
         Productor productor = new Productor(buffer, tamanioRango);
 
         threadPool.createWorkers(threads, buffer, dificultad);
-        productor.run();
-
-
-
+        productor.start();
 
     }
 

@@ -12,15 +12,15 @@ public class ThreadPool {
         while (cant >0){
             PowWorker worker = new PowWorker(buffer,dificultad);
             workers.add(worker);
-            worker.run();
+            worker.start();
             cant--;
         }
 
     }
 
-   /* synchronized public void stopWorkers(){
+  /*   public void stopWorkers(){
         for (int i = 0; i < workers.size(); i++) {
-
+        workers.get(i).stop();
         }
     }
 */

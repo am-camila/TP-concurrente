@@ -9,7 +9,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
-public class PowWorker extends Thread{
+public class PowWorker extends Thread implements Runnable{
     private final int dificultad;
     private Buffer buffer;
     private Rango rango; //rango que puede esta entre 0 y 2^32
