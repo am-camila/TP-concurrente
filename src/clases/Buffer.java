@@ -2,6 +2,7 @@ package clases;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -22,8 +23,9 @@ public class Buffer {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
         }
-        System.out.println("Hay espacio libre en el buffer");
+        System.out.println("Un thread tomó un rango");
         notifyAll();
         return this.ranges.remove(0);
     }
@@ -41,7 +43,7 @@ public class Buffer {
         notifyAll();
     }
 
-    public void setHayNonce(boolean boo) {
+    public void setHayNonce(boolean boo, long i, byte[]nonceValido) {
         this.hayNonce = boo;
     }
 

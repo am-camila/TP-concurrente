@@ -1,16 +1,17 @@
 package clases;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ThreadPool {
     private List<PowWorker> workers = new ArrayList<>();
 
 
-    public void createWorkers(int cantWorkers,Buffer buffer, int dificultad) {
+    public void createWorkers(int cantWorkers, Buffer buffer, int dificultad, Long timer) {
         int cant = cantWorkers;
         while (cant >0){
-            PowWorker worker = new PowWorker(buffer,dificultad);
+            PowWorker worker = new PowWorker(buffer,dificultad,timer);
             workers.add(worker);
             worker.start();
             cant--;

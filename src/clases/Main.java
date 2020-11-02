@@ -1,12 +1,13 @@
 package clases;
 
+import java.util.Date;
 import java.util.Scanner;
 
 public class Main {
     private static int dificultad;
     static Scanner scanner = new Scanner(System.in);
     private static int threads;
-    private static int tamanioRango;
+    private static long tamanioRango;
     private static Buffer buffer;
     private static ThreadPool threadPool;
 
@@ -17,12 +18,13 @@ public class Main {
         dificultad = scanner.nextInt();
         System.out.println("Ingresa una cantidad de threads(entero positivo): ");
         threads = scanner.nextInt();
-        tamanioRango = (int) (Math.pow(2, 32) / threads);
+        Long time = new Date().getTime();
+        tamanioRango = (long) (Math.pow(2, 32) / threads);
         buffer = new Buffer(2);
         threadPool = new ThreadPool();
         Productor productor = new Productor(buffer, tamanioRango);
 
-        threadPool.createWorkers(threads, buffer, dificultad);
+        threadPool.createWorkers(threads, buffer, dificultad, time);
         productor.start();
 
     }

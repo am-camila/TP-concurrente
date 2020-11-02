@@ -1,6 +1,6 @@
 import clases.Buffer;
 import clases.PowWorker;
-import javafx.util.Pair;
+import clases.Rango;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -15,9 +15,9 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class PowWorkerTest {
+/*public class PowWorkerTest {
     private final Buffer buffer= new Buffer(2);
-    private final PowWorker pw= new PowWorker(buffer,2);
+    private final PowWorker pw= new PowWorker(buffer,2, timer);
     private final List<Integer> nonces = new ArrayList<>();
     byte[] prefijo = "".getBytes();
     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -44,7 +44,7 @@ public class PowWorkerTest {
 
     @Test
     public void ass() throws IOException, NoSuchAlgorithmException {
-        pw.temporal(new Pair<>(0, (int) Math.pow(2, 31)));
+        pw.temporal(new Rango(0, (int) Math.pow(2, 31)));
         pw.run();
         outputStream.write(prefijo);
         /*outputStream.write(ByteBuffer.allocate(4).order(ByteOrder.BIG_ENDIAN).putInt(129544).array());
@@ -52,12 +52,9 @@ public class PowWorkerTest {
         byte[] sito = sha.digest(que);
         String qlo = String.format("%064x", new BigInteger(1, sito));
 
-        boolean cumple = pw.cumpleDificultad(qlo);*/
+        boolean cumple = pw.cumpleDificultad(qlo);
 
         assertTrue(true);
 
-
     }
-
-
-}
+}*/

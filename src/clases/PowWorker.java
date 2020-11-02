@@ -8,16 +8,19 @@ import java.nio.ByteOrder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import java.util.Date;
 
 public class PowWorker extends Thread implements Runnable{
     private final int dificultad;
+    private final Long tiempoInicial;
     private Buffer buffer;
     private Rango rango; //rango que puede esta entre 0 y 2^32
     private String prefijo = "";
 
-    public PowWorker(Buffer buffer, int dificultad){
+    public PowWorker(Buffer buffer, int dificultad, Long timer){
         this.buffer=buffer;
         this.dificultad = dificultad;
+        this.tiempoInicial = timer;
     }
 
     public boolean cumpleDificultad(String result){
@@ -54,12 +57,15 @@ public class PowWorker extends Thread implements Runnable{
             byte[] digest = sha.digest(outputStream.toByteArray());
             String result = String.format("%064x", new BigInteger(1, digest));
             if (cumpleDificultad(result)) {
-                buffer.setHayNonce(true);
                 nonceValido = pasarABytes((int) i);
-                System.out.println("nonce " + i +" : " + Arrays.toString(nonceValido) + " cumple");
+                buffer.setHayNonce(true,i,nonceValido);
+                System.out.println(this.getName() +" nonce " + i +" : " + Arrays.toString(nonceValido) + " cumple");
             }
             outputStream.reset();
         }
+        Double tiempoFinal = (double) (System.currentTimeMillis() - tiempoInicial) /1000;
+        System.out.println(this.getName()+" Termino en " + tiempoFinal + " segundos");
+
     }
 
     private byte[] pasarABytes(Integer i) {
