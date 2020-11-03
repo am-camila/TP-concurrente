@@ -15,13 +15,14 @@ public class Productor extends Thread {
  }
      public void run() {
 
-        while(ultimoNonce<Math.pow(2,32) && !buffer.getHayNonce()){
+        while(ultimoNonce<(long)Math.pow(2,32) && !buffer.getHayNonce()){
         long primerNonce = this.ultimoNonce;
-            for (int i = 0; i < tamanioRango; i++) {
+
+            for (long i = 0; i < tamanioRango; i++) {
             this.ultimoNonce++;
         }
         buffer.addWorkingUnit(primerNonce, ultimoNonce);
-        System.out.println("se termino de producir un rango. ultimo nonce:"+ultimoNonce);
+        System.out.println(ultimoNonce);
         }
     }
 }
