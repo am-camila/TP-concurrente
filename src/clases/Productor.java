@@ -16,13 +16,16 @@ public class Productor extends Thread {
      public void run() {
 
         while(ultimoNonce<(long)Math.pow(2,32) && !buffer.getHayNonce()){
-        long primerNonce = this.ultimoNonce;
-
-            for (long i = 0; i < tamanioRango; i++) {
+            long primerNonce;
+         if(ultimoNonce == 0){
+            primerNonce=ultimoNonce;
+         } else {
+             primerNonce = this.ultimoNonce+1;
+         }
+            for (long i = 0; i < tamanioRango -1; i++) {
             this.ultimoNonce++;
         }
         buffer.addWorkingUnit(primerNonce, ultimoNonce);
-        System.out.println(ultimoNonce);
         }
     }
 }
